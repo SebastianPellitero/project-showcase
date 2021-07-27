@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledBox = styled.div`
+export const StyledBox = styled.button`
     border: 1px blue solid;
     width: 250px;
     margin: 20px;

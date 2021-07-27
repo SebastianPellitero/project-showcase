@@ -1,51 +1,76 @@
-import React, { useContext, useState } from "react";
-import mockData from './mockData.json';
-
-const ProjectContext = React.createContext<any>([]);
-const ProjectUpdateContext = React.createContext<any>(undefined);
-
-type ProjectProviderProps = {children: React.ReactNode}
-
+import React, { useEffect, useContext, useReducer } from 'react';
+import mockData from './mockData2.json';
+import { reducer, initState, PENDING_PROJECT, COMPLETE_PROJECT } from './reducer';
 export interface Iproject {
-  id: number;
-  name: string;
-  identifier: string;
-  hostname?: null;
-  created_on: string;
-  modified_on?: string | null;
-  affected_on: string;
-  _computed: any;
-  logo?: null;
-  icon?: null;
-  splash?: null;
-  _embedded: any;
-  _links: { href: string; };
+    id: number;
+    name: string;
+    identifier: string;
+    hostname?: null;
+    created_on: string;
+    modified_on?: string | null;
+    affected_on: string;
+    _computed: any;
+    logo?: null;
+    icon?: null;
+    splash?: null;
+    _embedded: any;
+    _links: { href: string };
 }
 
+const ProjectContext = React.createContext<any>([]);
+
+type ProjectProviderProps = { children: React.ReactNode };
 export interface Embedded {
-  title?: (Iproject)[] | null;
+    title?: Iproject[] | null;
 }
 
 export const useProject = () => useContext(ProjectContext);
-export const useProjectUpdate = () => useContext(ProjectUpdateContext);
 
 export const ProjectProvider = ({ children }: ProjectProviderProps) => {
-    const [projectData, setProjectData] = useState<Iproject | Array<Iproject> | any >([])
+    const [state, dispatch] = useReducer(reducer, initState);
 
-    const apiCall = () => {
-        //api call
-        setProjectData(mockData._embedded.title);
-    }
+    useEffect(() => {
+        async function fetchMyAPI() {
+            dispatch({ type: PENDING_PROJECT });
 
-    return(
-        <ProjectContext.Provider value={projectData}>
-            <ProjectUpdateContext.Provider value={apiCall}>
-                {children}
-            </ProjectUpdateContext.Provider>
-        </ProjectContext.Provider>
-    )
-}
+            // const requestOptions = {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({
+            //         grant_type: 'client_credentials',
+            //         client_id: process.env.REACT_APP_CLIENT_ID,
+            //         client_secret: process.env.REACT_APP_CLIENT_SECRET
+            //     })
+            // };
+            // const response = await fetch(
+            //     'https://api.foleon.com/oauth',
+            //     requestOptions
+            // );
+            // const data = await response.json();
 
+            // let response2 = await fetch(
+            //     'https://api.foleon.com/v2/magazine/edition?page=1&limit=50',
+            //     { headers: { Authorization: `Bearer ${data.access_token}` } }
+            // );
+            // const data2 = await response2.json();
+            // dispatch({
+            //     type: COMPLETE_PROJECT,
+            //     payload: data2._embedded.edition
+            // });
 
+            await setTimeout(() => {
+                console.log('This will run after 1 second!');
+                dispatch({
+                    type: COMPLETE_PROJECT,
+                    payload: mockData._embedded.edition
+                });
+            }, 1000);
+        }
 
+        fetchMyAPI();
+    }, []);
 
+    return (
+        <ProjectContext.Provider value={state}>{children}</ProjectContext.Provider>
+    );
+};
