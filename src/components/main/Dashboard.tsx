@@ -3,7 +3,7 @@ import { useProject, Iproject } from '../../context/ProjectProvider';
 import ProjectDetail from './ProjectDetail';
 import ProjectCard from './ProjectCard';
 import { StyledArticle } from './styles.js';
-import Pagination from './Paginator';
+import Pagination from './ProjectPagination';
 import FilterBar from './FilterBar';
 
 const Dashboard = () => {
@@ -30,7 +30,6 @@ const Dashboard = () => {
                     }
                     RenderComponent={ProjectCard}
                     setProjectSelected={setProjectSelected}
-                    title='Posts'
                     pageLimit={5}
                     dataLimit={10}
                 />

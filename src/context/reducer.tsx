@@ -7,12 +7,17 @@ export const ERROR_PROJECT = 'error';
 export interface IState {
     loading: boolean;
     projects: Iproject[];
-    error: any;
+    error: string;
 }
+
+type Action =
+    | { type: typeof PENDING_PROJECT }
+    | { type: typeof COMPLETE_PROJECT; payload: Iproject[] }
+    | { type: typeof ERROR_PROJECT; payload: string };
 
 export const initState: IState = { loading: true, projects: [], error: '' };
 
-export function reducer(state: any, action: any) {
+export function reducer(state: IState, action: Action) {
     switch (action.type) {
         case PENDING_PROJECT:
             return { ...state, loading: true };

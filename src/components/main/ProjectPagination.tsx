@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Iproject } from '../../context/ProjectProvider';
 
-function Pagination({
-    data,
-    RenderComponent,
-    title,
-    pageLimit,
-    dataLimit,
-    setProjectSelected
+function Pagination(props: {
+    data: Iproject[];
+    RenderComponent: React.ComponentType<{
+        value: Iproject;
+        key: number;
+        setProjectSelected: Function;
+    }>;
+    pageLimit: number;
+    dataLimit: number;
+    setProjectSelected: Function;
 }) {
+    const { data, RenderComponent, pageLimit, dataLimit, setProjectSelected } =
+        props;
+
     const [pages] = useState(Math.round(data.length / dataLimit));
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -19,8 +26,7 @@ function Pagination({
         setCurrentPage(page => page - 1);
     }
 
-    function changePage(event) {
-        const pageNumber = Number(event.target.textContent);
+    function changePage(pageNumber: number) {
         setCurrentPage(pageNumber);
     }
 
@@ -32,16 +38,13 @@ function Pagination({
 
     const getPaginationGroup = () => {
         let start = Math.floor((currentPage - 1) / pageLimit) * pageLimit;
-        return new Array(pageLimit).fill().map((_, idx) => start + idx + 1);
+        return new Array(pageLimit).fill(0).map((_, idx) => start + idx + 1);
     };
 
     return (
         <div>
-            <h1>{title}</h1>
-
-            {/* show the posts, 10 posts at a time */}
             <div className='dataContainer'>
-                {getPaginatedData().map((d, idx) => (
+                {getPaginatedData().map((d: Iproject, idx: number) => (
                     <RenderComponent
                         value={d}
                         key={idx}
@@ -50,13 +53,7 @@ function Pagination({
                 ))}
             </div>
 
-            {/* show the pagiantion
-            it consists of next and previous buttons
-            along with page numbers, in our case, 5 page
-            numbers at a time
-        */}
             <div className='pagination'>
-                {/* previous button */}
                 <button
                     onClick={goToPreviousPage}
                     className={`prev ${currentPage === 1 ? 'disabled' : ''}`}
@@ -64,11 +61,10 @@ function Pagination({
                     prev
                 </button>
 
-                {/* show page numbers */}
                 {getPaginationGroup().map((item, index) => (
                     <button
                         key={index}
-                        onClick={changePage}
+                        onClick={() => changePage(item)}
                         className={`paginationItem ${
                             currentPage === item ? 'active' : null
                         }`}
@@ -77,7 +73,6 @@ function Pagination({
                     </button>
                 ))}
 
-                {/* next button */}
                 <button
                     onClick={goToNextPage}
                     className={`next ${currentPage === pages ? 'disabled' : ''}`}

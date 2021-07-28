@@ -16,12 +16,12 @@ export interface Iproject {
     created_on: string;
     modified_on?: string | null;
     affected_on: string;
-    _computed: any;
+    _computed?: any;
     logo?: null;
     icon?: null;
     splash?: null;
     _embedded: any;
-    _links: { href: string };
+    _links?: any;
 }
 export interface Embedded {
     title?: Iproject[] | null;

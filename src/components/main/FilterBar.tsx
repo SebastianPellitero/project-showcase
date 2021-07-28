@@ -8,16 +8,16 @@ const FilterBar = (props: {
     const [searchBar, setSearchBar] = useState('');
     const [selectFilter, setSelectFilter] = useState('');
 
-    const handleChange = (event: any) => {
+    const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
         event.preventDefault();
         setSearchBar(event.currentTarget.value);
     };
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         const { setFilteredProjects, projects } = props;
         e.preventDefault();
         let filtered = projects.filter(
-            (project: any) =>
+            (project: Iproject) =>
                 project.name.toLowerCase().indexOf(searchBar.toLowerCase()) > -1 &&
                 (selectFilter === '' || project.identifier === selectFilter)
         );
