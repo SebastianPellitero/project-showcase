@@ -1,5 +1,9 @@
 import { useState } from 'react';
-import { useProject, Iproject } from '../../context/ProjectProvider';
+import {
+    useProject,
+    SetProjectFilter,
+    Iproject
+} from '../../context/ProjectProvider';
 import ProjectDetail from './ProjectDetail';
 import ProjectCard from './ProjectCard';
 import { StyledDashboard } from './Dashboard.styles.js';
@@ -8,6 +12,7 @@ import FilterBar from './FilterBar';
 
 const Dashboard = () => {
     const projectData = useProject();
+    const setProjectFilter = SetProjectFilter();
     const [projectSelected, setProjectSelected] = useState<Iproject>();
     const [filteredProjects, setFilteredProjects] = useState<Iproject[]>([]);
 
@@ -20,7 +25,6 @@ const Dashboard = () => {
                 projects={projects}
                 setFilteredProjects={setFilteredProjects}
             />
-
             {loading ? (
                 <p>PENDING</p>
             ) : (
@@ -34,7 +38,6 @@ const Dashboard = () => {
                     dataLimit={10}
                 />
             )}
-
             {/* {projects && projectSelected ? (
                 <ProjectDetail {...projectSelected} />
             ) : null} */}

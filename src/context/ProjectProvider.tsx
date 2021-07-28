@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useReducer } from 'react';
+import React, { useEffect, useContext, useReducer, useState } from 'react';
 import mockData from './mockData2.json';
 import {
     reducer,
@@ -28,16 +28,30 @@ export interface Iproject {
     _links: any;
 }
 
+export interface Ifilter {
+    field: string;
+    type: string;
+    value: string;
+}
+
+const inicialFilterState: Ifilter = { field: '', type: '', value: '' };
+
 type ProjectProviderProps = { children: React.ReactNode };
 
 const ProjectContext = React.createContext<IState>(initState);
+const ProjectContextFilter = React.createContext<
+    React.Dispatch<React.SetStateAction<Ifilter[]>>
+>(() => inicialFilterState);
 
 export const useProject = () => useContext(ProjectContext);
+export const SetProjectFilter = () => useContext(ProjectContextFilter);
 
 export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     const [state, dispatch] = useReducer(reducer, initState);
+    const [filter, setFilter] = useState<Ifilter[]>([inicialFilterState]);
 
     useEffect(() => {
+        console.log(filter);
         async function fetchMyAPI() {
             dispatch({ type: PENDING_PROJECT });
 
@@ -80,9 +94,13 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
         }
 
         fetchMyAPI();
-    }, []);
+    }, [filter]);
 
     return (
-        <ProjectContext.Provider value={state}>{children}</ProjectContext.Provider>
+        <ProjectContext.Provider value={state}>
+            <ProjectContextFilter.Provider value={setFilter}>
+                {children}
+            </ProjectContextFilter.Provider>
+        </ProjectContext.Provider>
     );
 };
