@@ -1,3 +1,3 @@
-import React from 'react';
+import { StyledFooter } from './index.styles';
 
-export const Footer = () => <p>This is a Footer</p>;
+export const Footer = () => <StyledFooter>This is a Footer</StyledFooter>;

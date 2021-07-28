@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useProject, Iproject } from '../../context/ProjectProvider';
 import ProjectDetail from './ProjectDetail';
 import ProjectCard from './ProjectCard';
-import { StyledArticle } from './styles.js';
+import { StyledDashboard } from './Dashboard.styles.js';
 import Pagination from './ProjectPagination';
 import FilterBar from './FilterBar';
 
@@ -15,7 +15,7 @@ const Dashboard = () => {
 
     if (error) return <p>Error here</p>;
     return (
-        <StyledArticle>
+        <StyledDashboard>
             <FilterBar
                 projects={projects}
                 setFilteredProjects={setFilteredProjects}
@@ -35,10 +35,10 @@ const Dashboard = () => {
                 />
             )}
 
-            {projects && projectSelected ? (
+            {/* {projects && projectSelected ? (
                 <ProjectDetail {...projectSelected} />
-            ) : null}
-        </StyledArticle>
+            ) : null} */}
+        </StyledDashboard>
     );
 };
 

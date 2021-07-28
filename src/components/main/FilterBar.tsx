@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Iproject } from '../../context/ProjectProvider';
+import { StyledSidebar } from './Dashboard.styles';
+import searchIcon from '../../search-icon.svg';
 
 const FilterBar = (props: {
     setFilteredProjects: React.Dispatch<React.SetStateAction<Iproject[]>>;
@@ -26,13 +28,23 @@ const FilterBar = (props: {
     };
 
     return (
-        <form>
-            <input
-                key='somethings'
-                type='text'
-                value={searchBar}
-                onChange={handleChange}
-            />
+        <StyledSidebar>
+            <div className='search'>
+                <input
+                    key='somethings'
+                    type='text'
+                    value={searchBar}
+                    onChange={handleChange}
+                    placeholder='Search'
+                />
+                <button
+                    className='searchButton'
+                    type='submit'
+                    onClick={handleSubmit}
+                >
+                    <img src={searchIcon} alt='Icon search' />
+                </button>
+            </div>
             <select
                 value={selectFilter}
                 onChange={event => setSelectFilter(event.target.value)}
@@ -44,10 +56,7 @@ const FilterBar = (props: {
                     </option>
                 ))}
             </select>
-            <button type='submit' onClick={handleSubmit}>
-                Submit
-            </button>
-        </form>
+        </StyledSidebar>
     );
 };
 

@@ -1,3 +1,7 @@
-import React from 'react';
+import { StyledHeader } from './index.styles';
 
-export const Header = () => <header><p>This is a Header</p></header>;
+export const Header = () => (
+    <StyledHeader>
+        <p>This is a Header</p>
+    </StyledHeader>
+);

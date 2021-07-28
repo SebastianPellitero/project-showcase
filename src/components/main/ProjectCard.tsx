@@ -1,15 +1,18 @@
-import { StyledBox } from './styles.js';
+import { StyledCard } from './Dashboard.styles.js';
 import { Iproject } from '../../context/ProjectProvider';
+import noImage from '../../noimage.png';
 
-const ProjectBox = (props: { value: Iproject; setProjectSelected: Function }) => {
-    const { value, setProjectSelected } = props;
+const ProjectCard = (props: { project: Iproject; setProjectSelected: Function }) => {
+    const { project, setProjectSelected } = props;
     return (
-        <StyledBox onClick={() => setProjectSelected(value)}>
-            <p>{value.id}</p>
-            <p>{value.name}</p>
-            <p>{value.created_on}</p>
-        </StyledBox>
+        <StyledCard>
+            <button onClick={() => setProjectSelected(project)}>
+                <img src={noImage} alt='NoImage placeholder' />
+                <p>{project.created_on}</p>
+                <h3>{project.name}</h3>
+            </button>
+        </StyledCard>
     );
 };
 
-export default ProjectBox;
+export default ProjectCard;

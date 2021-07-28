@@ -4,8 +4,7 @@ import { Iproject } from '../../context/ProjectProvider';
 function Pagination(props: {
     data: Iproject[];
     RenderComponent: React.ComponentType<{
-        value: Iproject;
-        key: number;
+        project: Iproject;
         setProjectSelected: Function;
     }>;
     pageLimit: number;
@@ -42,12 +41,11 @@ function Pagination(props: {
     };
 
     return (
-        <div>
-            <div className='dataContainer'>
+        <div className='dataContainer'>
+            <div className='dataContent'>
                 {getPaginatedData().map((d: Iproject, idx: number) => (
                     <RenderComponent
-                        value={d}
-                        key={idx}
+                        project={d}
                         setProjectSelected={setProjectSelected}
                     />
                 ))}
