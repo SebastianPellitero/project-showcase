@@ -21,10 +21,17 @@ const FilterBar = (props: {
         let filtered = projects.filter(
             (project: Iproject) =>
                 project.name.toLowerCase().indexOf(searchBar.toLowerCase()) > -1 &&
-                (selectFilter === '' || project.identifier === selectFilter)
+                (selectFilter === '' || project.status === selectFilter)
         );
-        console.log(filtered);
         setFilteredProjects(filtered);
+    };
+
+    const onlyUniques = (data: any, selector: string) => {
+        const mySet1 = new Set();
+        data.forEach((index: any) => mySet1.add(index[selector]));
+        let oneArray = Array.from(mySet1);
+
+        return oneArray;
     };
 
     return (
@@ -50,11 +57,14 @@ const FilterBar = (props: {
                 onChange={event => setSelectFilter(event.target.value)}
             >
                 <option value=''>Choose a filter</option>
-                {props.projects.map((value: Iproject, index: number) => (
-                    <option key={index} value={value.identifier}>
-                        {value.identifier}
-                    </option>
-                ))}
+
+                {onlyUniques(props.projects, 'category').forEach(
+                    (value: any, index: number) => (
+                        <option key={index} value={value}>
+                            {value}
+                        </option>
+                    )
+                )}
             </select>
         </StyledSidebar>
     );

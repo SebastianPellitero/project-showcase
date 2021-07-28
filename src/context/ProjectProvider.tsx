@@ -9,23 +9,25 @@ import {
     ERROR_PROJECT
 } from './reducer';
 export interface Iproject {
-    id: number;
     name: string;
     identifier: string;
-    hostname?: null;
-    created_on: string;
-    modified_on?: string | null;
+    published_on?: null;
     affected_on: string;
-    _computed?: any;
-    logo?: null;
-    icon?: null;
-    splash?: null;
+    first_published_on?: null;
+    status: string;
+    has_header?: null;
+    options: any;
+    level: string;
+    category: string;
+    is_starred?: null;
+    screenshot_store: string;
+    id: number;
+    created_on: string;
+    modified_on: string;
     _embedded: any;
-    _links?: any;
+    _links: any;
 }
-export interface Embedded {
-    title?: Iproject[] | null;
-}
+
 type ProjectProviderProps = { children: React.ReactNode };
 
 const ProjectContext = React.createContext<IState>(initState);

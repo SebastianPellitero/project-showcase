@@ -70,12 +70,4 @@ export const StyledDashboard = styled.div`
             }
         }
     }
-
-    .searchBar {
-        background: #fff 205px center no-repeat url(${searchIcon});
-        background-size: 14px;
-        width: 190px;
-        padding: 7px 28px 7px 10px;
-        border-radius: 5px;
-    }
 `;
