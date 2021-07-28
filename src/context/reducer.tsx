@@ -1,15 +1,16 @@
-import {Iproject} from './ProjectProvider';
+import { Iproject } from './ProjectProvider';
 
 export const PENDING_PROJECT = 'pending';
 export const COMPLETE_PROJECT = 'completed';
 export const ERROR_PROJECT = 'error';
 
-interface IinicialState {
-    loading: boolean,
-    projects: (Iproject)[];
+export interface IState {
+    loading: boolean;
+    projects: Iproject[];
+    error: any;
 }
 
-export const initState: IinicialState = { loading: true, projects: [] }
+export const initState: IState = { loading: true, projects: [], error: '' };
 
 export function reducer(state: any, action: any) {
     switch (action.type) {
@@ -17,6 +18,8 @@ export function reducer(state: any, action: any) {
             return { ...state, loading: true };
         case COMPLETE_PROJECT:
             return { ...state, projects: action.payload, loading: false };
+        case ERROR_PROJECT:
+            return { ...state, error: action.payload, loading: false };
         default:
             throw new Error();
     }

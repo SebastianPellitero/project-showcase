@@ -1,6 +1,13 @@
 import React, { useEffect, useContext, useReducer } from 'react';
 import mockData from './mockData2.json';
-import { reducer, initState, PENDING_PROJECT, COMPLETE_PROJECT } from './reducer';
+import {
+    reducer,
+    initState,
+    IState,
+    PENDING_PROJECT,
+    COMPLETE_PROJECT,
+    ERROR_PROJECT
+} from './reducer';
 export interface Iproject {
     id: number;
     name: string;
@@ -16,13 +23,12 @@ export interface Iproject {
     _embedded: any;
     _links: { href: string };
 }
-
-const ProjectContext = React.createContext<any>([]);
-
-type ProjectProviderProps = { children: React.ReactNode };
 export interface Embedded {
     title?: Iproject[] | null;
 }
+type ProjectProviderProps = { children: React.ReactNode };
+
+const ProjectContext = React.createContext<IState>(initState);
 
 export const useProject = () => useContext(ProjectContext);
 
@@ -57,14 +63,18 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
             //     type: COMPLETE_PROJECT,
             //     payload: data2._embedded.edition
             // });
-
-            await setTimeout(() => {
-                console.log('This will run after 1 second!');
-                dispatch({
-                    type: COMPLETE_PROJECT,
-                    payload: mockData._embedded.edition
-                });
-            }, 1000);
+            try {
+                await setTimeout(() => {
+                    console.log('This will run after 1 second!');
+                    dispatch({
+                        type: COMPLETE_PROJECT,
+                        payload: mockData._embedded.edition
+                    });
+                }, 1000);
+            } catch (error) {
+                dispatch({ type: ERROR_PROJECT, payload: error });
+                console.log(error);
+            }
         }
 
         fetchMyAPI();
