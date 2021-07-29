@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { PUBLICATIONS_PER_PAGE } from '../../constants';
-import { Iproject } from '../../context/ProjectProvider';
-import Pagination from './Pagination';
+import { PUBLICATIONS_PER_PAGE } from '../../../constants';
+import { Iproject } from 'src/context/ProjectProvider';
+import Pagination from '../Pagination';
 import ProjectCard from './ProjectCard';
 import ProjectDetail from './ProjectDetail';
 import { StyledProjects } from './Projects.styles';

@@ -1,7 +1,7 @@
-import { UseProject } from '../../context/ProjectProvider';
+import { UseProject } from 'src/context/ProjectProvider';
 import { StyledDashboard } from './Dashboard.styles.js';
 import FilterBar from './FilterBar';
-import Projects from './Projects';
+import Projects from './projects/Projects';
 
 const Dashboard = () => {
     const projectData = UseProject();

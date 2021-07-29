@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { SetProjectFilter, Iproject } from '../../context/ProjectProvider';
+import { SetProjectFilter, Iproject } from 'src/context/ProjectProvider';
 import { StyledSidebar } from './FilterBar.styles';
-import searchIcon from '../../search-icon.svg';
+import searchIcon from 'src/search-icon.svg';
 
 const DEFAULT_STATE = '';
 

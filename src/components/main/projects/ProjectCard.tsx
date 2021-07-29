@@ -1,6 +1,6 @@
 import { StyledCard } from './ProjectCard.styles';
-import { Iproject } from '../../context/ProjectProvider';
-import noImage from '../../noimage.png';
+import { Iproject } from 'src/context/ProjectProvider';
+import noImage from 'src/noimage.png';
 
 const ProjectCard = (props: { project: Iproject; setProjectSelected: Function }) => {
     const { project, setProjectSelected } = props;

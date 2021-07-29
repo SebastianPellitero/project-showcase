@@ -1,7 +1,7 @@
 import React from 'react';
-import { Iproject } from '../../context/ProjectProvider';
+import { Iproject } from 'src/context/ProjectProvider';
 import { StyledDetails } from './ProjectDetail.styles';
-import noImage from '../../noimage.png';
+import noImage from 'src/noimage.png';
 
 const ProjectDetail = (props: {
     projectSelected: Iproject;

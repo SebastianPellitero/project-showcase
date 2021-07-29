@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PAGE_LIMIT, PUBLICATIONS_PER_PAGE } from '../../constants';
+import { PAGE_LIMIT, PUBLICATIONS_PER_PAGE } from 'src/constants';
 import { StyledPagination } from './Pagination.styles';
 
 function Pagination(props: { totalPages: number; onPageChange: any }) {
