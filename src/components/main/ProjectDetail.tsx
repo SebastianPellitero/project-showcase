@@ -1,16 +1,44 @@
 import React from 'react';
 import { Iproject } from '../../context/ProjectProvider';
+import { StyledDetails } from './ProjectDetail.styles';
+import noImage from '../../noimage.png';
 
-const ProjectDetail = (props: Iproject) => {
+const ProjectDetail = (props: {
+    projectSelected: Iproject;
+    setProjectSelected: Function;
+}) => {
+    const { projectSelected, setProjectSelected } = props;
+
+    function closeDetail() {
+        setProjectSelected(null);
+    }
+
     return (
-        <div>
-            <p>{props.id}</p>
-            <p>{props.name}</p>
-            <p>{props.identifier}</p>
-            <p>{props.created_on}</p>
-            <p>{props.modified_on}</p>
-            <p>{props.affected_on}</p>
-        </div>
+        <StyledDetails>
+            <button onClick={closeDetail} className='close'>
+                X
+            </button>
+            <div className='detailContent'>
+                <img src={noImage} alt='NoImage placeholder' />
+                <h2 className='title'>{projectSelected.name}</h2>
+                <h4 className='category'>{projectSelected.category}</h4>
+                <div className='status'>{projectSelected.status}</div>
+                <div className='info'>
+                    <p>
+                        <b>Identifier:</b> {projectSelected.identifier}
+                    </p>
+                    <p>
+                        <b>Created on:</b> {projectSelected.created_on}
+                    </p>
+                    <p>
+                        <b>Modified on:</b> {projectSelected.modified_on}
+                    </p>
+                    <p>
+                        <b>Affected on:</b> {projectSelected.affected_on}
+                    </p>
+                </div>
+            </div>
+        </StyledDetails>
     );
 };
 
