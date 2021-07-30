@@ -1,5 +1,4 @@
-import React from 'react';
-import { Iproject } from 'src/context/ProjectProvider';
+import { Iproject } from 'src/types/interfaces';
 import { StyledDetails } from './ProjectDetail.styles';
 import noImage from 'src/noimage.png';
 

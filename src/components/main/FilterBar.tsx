@@ -1,9 +1,16 @@
 import { useState } from 'react';
-import { SetProjectFilter, Iproject } from 'src/context/ProjectProvider';
+import { SetProjectFilter } from 'src/context/ProjectProvider';
+import { Iproject } from 'src/types/interfaces';
 import { StyledSidebar } from './FilterBar.styles';
 import searchIcon from 'src/search-icon.svg';
 
 const DEFAULT_STATE = '';
+
+// interface trainInfo {
+//     name: keyof typeof 
+// }
+
+type selector = 'category' | 'status';
 
 const FilterBar = (props: { projects: Iproject[] }) => {
     const setProjectFilter = SetProjectFilter();
@@ -29,15 +36,13 @@ const FilterBar = (props: { projects: Iproject[] }) => {
             filterQuery.push({ field: 'status', type: 'eq', value: selectStatus });
         if (searchName)
             filterQuery.push({ field: 'name', type: 'like', value: searchName });
-
         setProjectFilter(filterQuery);
     };
 
-    const onlyUniques = (data: any, selector: string) => {
-        const mySet1 = new Set();
-        data.forEach((index: any) => mySet1.add(index[selector]));
-        let oneArray = Array.from(mySet1);
-
+    const filterUniquesValues = (data: Iproject[], selector: string) => {
+        const selectorSet = new Set();
+        data.forEach((project: any) => selectorSet.add(project[selector]));
+        let oneArray = Array.from(selectorSet);
         return oneArray;
     };
 
@@ -53,7 +58,7 @@ const FilterBar = (props: { projects: Iproject[] }) => {
             >
                 <option value=''>Choose a filter</option>
 
-                {onlyUniques(props.projects, attributes).map(
+                {filterUniquesValues(props.projects, attributes).map(
                     (value: any, index: number) => (
                         <option key={index} value={value}>
                             {value}
