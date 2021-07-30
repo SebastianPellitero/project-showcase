@@ -1,6 +1,6 @@
 import { Iproject } from 'src/types/interfaces';
 import { StyledDetails } from './ProjectDetail.styles';
-import noImage from 'src/noimage.png';
+import noImage from 'src/assets/noimage.png';
 
 const ProjectDetail = (props: {
     projectSelected: Iproject;
@@ -8,9 +8,7 @@ const ProjectDetail = (props: {
 }) => {
     const { projectSelected, setProjectSelected } = props;
 
-    function closeDetail() {
-        setProjectSelected(null);
-    }
+    const closeDetail = () => setProjectSelected(null);
 
     return (
         <StyledDetails>

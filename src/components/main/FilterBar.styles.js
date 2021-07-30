@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import { DARK_BLUE } from 'src/constants';
 
 export const StyledSidebar = styled.form`
 	width: 15%;
-	background: #223659;
+	background: ${DARK_BLUE};
 	margin-right: 1%;
 	border-radius: 7px;
 	color: #fff;

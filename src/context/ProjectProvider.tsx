@@ -33,11 +33,7 @@ export const ProjectProvider = ({ children }: {children: React.ReactNode}) => {
    const [filter, setFilter] = useState<Ifilter[]>([]);
    const [actualPage, setActualPage] = useState<number>(1);
    const qs = require('qs');
-   const cookies = new Cookies();
- 
-   useEffect(() => {
-       auth();
-   }, []);
+    const cookies = new Cookies();
  
    useEffect(() => {
        async function fetchFilterProjects() {
@@ -45,21 +41,31 @@ export const ProjectProvider = ({ children }: {children: React.ReactNode}) => {
                dispatch({ type: CLEAR_FILTER });
            } else if (filter.length !== 0) {
                dispatch({ type: PENDING_PROJECT });
-               const token = cookies.get('token');
-               let response = await fetch(
-                   'https://api.foleon.com/v2/magazine/edition?page=1&limit=10&' +
-                       qs.stringify({ filter }),
-                   {
-                       headers: {
-                           Authorization: `Bearer ${token}`
+                try {
+                    let token
+                    if (cookies.get('token')) {
+                        token = cookies.get('token');
+                    } else {
+                        await auth();
+                        token = cookies.get('token');
+                    }
+                   let response = await fetch(
+                       'https://api.foleon.com/v2/magazine/edition?page=1&limit=50&' +
+                           qs.stringify({ filter }),
+                       {
+                           headers: {
+                               Authorization: `Bearer ${token}`
+                           }
                        }
-                   }
-               );
-               const filteredProjects = await response.json();
-               dispatch({
-                   type: SUCCESS_PROJECT_FILTER,
-                   payload: filteredProjects._embedded.edition
-               });
+                   );
+                   const filteredProjects = await response.json();
+                   dispatch({
+                       type: SUCCESS_PROJECT_FILTER,
+                       payload: filteredProjects._embedded.edition
+                   });
+               } catch (error) {
+                   dispatch({type: ERROR_PROJECT, payload:error})
+               }
            }
        }
        fetchFilterProjects();
@@ -68,23 +74,31 @@ export const ProjectProvider = ({ children }: {children: React.ReactNode}) => {
    useEffect(() => {
        async function fetchProjects() {
            dispatch({ type: PENDING_PROJECT });
- 
-           const token = cookies.get('token');
-           let response = await fetch(
-               `https://api.foleon.com/v2/magazine/edition?page=${actualPage}&limit=50`,
-               { headers: { Authorization: `Bearer ${token}` } }
-           );
-           const projects = await response.json();
-           dispatch({
-               type: SUCCESS_PROJECT,
-               payload: projects._embedded.edition
-           });
-           dispatch({
-               type: SET_PAGINATION,
-               payload: projects
-           });
+           try {
+               let token
+               if (cookies.get('token')) {
+                    token = cookies.get('token');
+               } else {
+                    await auth();
+                   token = cookies.get('token');
+                }
+                let response = await fetch(
+                    `https://api.foleon.com/v2/magazine/edition?page=${actualPage}&limit=50`,
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
+                const projects = await response.json();
+                dispatch({
+                    type: SUCCESS_PROJECT,
+                    payload: projects._embedded.edition
+                });
+                dispatch({
+                    type: SET_PAGINATION,
+                    payload: {total: projects.total_items, page: projects.page}
+                });
+           } catch (error) {
+            dispatch({type: ERROR_PROJECT, payload:error})
+           }
        }
- 
        fetchProjects();
    }, [actualPage]);
  

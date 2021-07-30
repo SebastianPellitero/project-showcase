@@ -2,34 +2,28 @@ import { useState } from 'react';
 import { StyledPagination } from './Pagination.styles';
 import { PAGE_LIMIT, PUBLICATIONS_PER_PAGE } from 'src/constants';
 
-function Pagination(props: { lastPage: number; onPageChange: any }) {
+const Pagination = (props: { lastPage: number; onPageChange: Function }) => {
 	const { lastPage, onPageChange } = props;
 
 	const [currentPage, setCurrentPage] = useState(1);
 
-	function changePage(pageNumber: number) {
-		const start =
-			pageNumber * PUBLICATIONS_PER_PAGE - PUBLICATIONS_PER_PAGE;
+	const changePage = (pageNumber: number) => {
+		const start = pageNumber * PUBLICATIONS_PER_PAGE - PUBLICATIONS_PER_PAGE;
 
 		onPageChange({
 			start,
 			end: start + PUBLICATIONS_PER_PAGE,
 			pageNumber
 		});
-
 		setCurrentPage(pageNumber);
 	}
 
-	function goToNextPage() {
-		changePage(currentPage + 1);
-	}
+	const goToNextPage = () => changePage(currentPage + 1);
 
-	function goToPreviousPage() {
-		changePage(currentPage - 1);
-	}
+	const goToPreviousPage = () => changePage(currentPage - 1);
 
 	const getPaginationGroup = () => {
-		let paginationGroup: any = [];
+		let paginationGroup: number[] = [];
 		if (lastPage > 0) {
 			let start = Math.floor((currentPage - 1) / PAGE_LIMIT) * PAGE_LIMIT;
 			for (let index = 0; index < PAGE_LIMIT; index++) {
@@ -51,7 +45,7 @@ function Pagination(props: { lastPage: number; onPageChange: any }) {
 				prev
 			</button>
 
-			{getPaginationGroup().map((item: any, index: any) => (
+			{getPaginationGroup().map((item: number, index: number) => (
 				<button
 					key={index}
 					onClick={() => changePage(item)}

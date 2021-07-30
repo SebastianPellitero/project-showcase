@@ -13,7 +13,7 @@ type Action =
 	| { type: typeof SUCCESS_PROJECT_FILTER; payload: Iproject[] }
 	| { type: typeof CLEAR_FILTER }
 	| { type: typeof ERROR_PROJECT; payload: string }
-	| { type: typeof SET_PAGINATION; payload: any };
+	| { type: typeof SET_PAGINATION; payload: {total: number, page: number} };
 
 export const initState: IState = {
 	loading: true,
@@ -37,7 +37,7 @@ export function reducer(state: IState, action: Action) {
 			return {
 				...state,
 				paginationData: {
-					totalItems: action.payload.total_items,
+					totalItems: action.payload.total,
 					apiPaginationPage: action.payload.page
 				}
 			};

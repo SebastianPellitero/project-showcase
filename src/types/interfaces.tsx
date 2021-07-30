@@ -1,4 +1,5 @@
 export interface Iproject {
+   [key:string]: any,
     name: string;
     identifier: string;
     published_on?: null;
@@ -30,4 +31,8 @@ export interface Iproject {
 	projectsFiltered: Iproject[];
 	error: string;
 	paginationData: any;
+}
+
+export interface IPagination {
+   start: number, end: number, pageNumber: number
 }

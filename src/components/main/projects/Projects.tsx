@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Iproject } from 'src/types/interfaces';
+import { Iproject, IPagination } from 'src/types/interfaces';
 import Pagination from '../Pagination';
 import ProjectCard from './ProjectCard';
 import ProjectDetail from './ProjectDetail';
@@ -7,20 +7,18 @@ import { StyledProjects } from './Projects.styles';
 import { SetActualPage, UseProject } from 'src/context/ProjectProvider';
 import { PUBLICATIONS_PER_PAGE } from 'src/constants';
 
-function Projects(props: { data: Iproject[]; loading: boolean }) {
-	const { data, loading } = props;
-	const projectData = UseProject();
-	const {
-		paginationData: { totalItems, apiPaginationPage }
-	} = projectData;
-	const setActualPage = SetActualPage();
-	const lastPage = Math.ceil(totalItems / PUBLICATIONS_PER_PAGE);
-
+const Projects = (props: { data: Iproject[]; loading: boolean }) => {
 	const [startIndex, setStartIndex] = useState(0);
 	const [endIndex, setEndIndex] = useState(PUBLICATIONS_PER_PAGE);
 	const [projectSelected, setProjectSelected] = useState<Iproject>();
 
-	const onPageChange = (pageChangedInfo: any) => {
+	const { data, loading } = props;
+	const {	paginationData:{ totalItems, apiPaginationPage }} = UseProject();
+	
+	const setActualPage = SetActualPage();
+	const lastPage = Math.ceil(totalItems / PUBLICATIONS_PER_PAGE);
+
+	const onPageChange = (pageChangedInfo: IPagination) => {
 		const { start, end, pageNumber } = pageChangedInfo;
 		setStartIndex(start);
 		setEndIndex(end);

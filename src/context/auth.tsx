@@ -19,4 +19,5 @@ export async function auth() {
    const userInfo = await response.json();
    const cookies = new Cookies();
    cookies.set('token', userInfo.access_token);
+//    return cookies;
 }
