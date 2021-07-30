@@ -1,26 +1,35 @@
-import { Iproject, IState } from 'src/types/interfaces';
+import { Iresponse, IState } from 'src/types/interfaces';
 
 export const PENDING_PROJECT = 'pending';
 export const SUCCESS_PROJECT = 'success';
 export const SUCCESS_PROJECT_FILTER = 'success_filter';
 export const ERROR_PROJECT = 'error';
 export const CLEAR_FILTER = 'clear_filter';
-export const SET_PAGINATION = 'set_pagination';
 
 type Action =
 	| { type: typeof PENDING_PROJECT }
-	| { type: typeof SUCCESS_PROJECT; payload: Iproject[] }
-	| { type: typeof SUCCESS_PROJECT_FILTER; payload: Iproject[] }
+	| { type: typeof SUCCESS_PROJECT; payload: Iresponse }
+	| { type: typeof SUCCESS_PROJECT_FILTER; payload: Iresponse }
 	| { type: typeof CLEAR_FILTER }
-	| { type: typeof ERROR_PROJECT; payload: string }
-	| { type: typeof SET_PAGINATION; payload: {total: number, page: number} };
+	| { type: typeof ERROR_PROJECT; payload: string };
 
 export const initState: IState = {
 	loading: true,
-	projects: [],
-	projectsFiltered: [],
-	error: '',
-	paginationData: {}
+	projects: {
+		data: [],
+		paginationData: {
+			totalItems: 0,
+			apiPaginationPage: 1
+		}
+	},
+	projectsFiltered: {
+		data: [],
+		paginationData: {
+			totalItems: 0,
+			apiPaginationPage: 1
+		}
+	},
+	error: ''
 };
 
 export function reducer(state: IState, action: Action) {
@@ -30,25 +39,46 @@ export function reducer(state: IState, action: Action) {
 		case SUCCESS_PROJECT:
 			return {
 				...state,
-				projects: [...state.projects, ...action.payload],
+				projects: {
+					data: [
+						...state.projects.data,
+						...action.payload._embedded.edition
+					],
+					paginationData: {
+						totalItems: action.payload.total,
+						apiPaginationPage: action.payload.page
+					}
+				},
 				loading: false
 			};
-		case SET_PAGINATION:
-			return {
-				...state,
-				paginationData: {
-					totalItems: action.payload.total,
-					apiPaginationPage: action.payload.page
-				}
-			};
+
 		case SUCCESS_PROJECT_FILTER:
 			return {
 				...state,
-				projectsFiltered: action.payload,
+				projectsFiltered: {
+					data: [
+						...state.projectsFiltered.data,
+						...action.payload._embedded.edition
+					],
+					paginationData: {
+						totalItems: action.payload.total,
+						apiPaginationPage: action.payload.page
+					}
+				},
 				loading: false
 			};
 		case CLEAR_FILTER:
-			return { ...state, projectsFiltered: [] };
+			return {
+				...state,
+				projectsFiltered: {
+					data: [],
+					paginationData: {
+						totalItems: 0,
+						apiPaginationPage: 1
+					}
+				},
+				loading: false
+			};
 		case ERROR_PROJECT:
 			return { ...state, error: action.payload, loading: false };
 		default:

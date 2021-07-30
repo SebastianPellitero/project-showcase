@@ -21,6 +21,7 @@ export const StyledDetails = styled.div`
 		font-weight: bold;
 		color: #223659;
 		position: absolute;
+		cursor: pointer;
 	}
 	.detailContent {
 		padding: 30px;

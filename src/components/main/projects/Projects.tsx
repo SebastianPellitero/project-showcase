@@ -4,17 +4,24 @@ import Pagination from '../Pagination';
 import ProjectCard from './ProjectCard';
 import ProjectDetail from './ProjectDetail';
 import { StyledProjects } from './Projects.styles';
-import { SetActualPage, UseProject } from 'src/context/ProjectProvider';
+import { SetActualPage } from 'src/context/ProjectProvider';
 import { PUBLICATIONS_PER_PAGE } from 'src/constants';
 
-const Projects = (props: { data: Iproject[]; loading: boolean }) => {
+const Projects = (props: {
+	data: Iproject[];
+	loading: boolean;
+	paginationData: { totalItems: number; apiPaginationPage: number };
+}) => {
 	const [startIndex, setStartIndex] = useState(0);
 	const [endIndex, setEndIndex] = useState(PUBLICATIONS_PER_PAGE);
 	const [projectSelected, setProjectSelected] = useState<Iproject>();
 
-	const { data, loading } = props;
-	const {	paginationData:{ totalItems, apiPaginationPage }} = UseProject();
-	
+	const {
+		data,
+		loading,
+		paginationData: { totalItems, apiPaginationPage }
+	} = props;
+
 	const setActualPage = SetActualPage();
 	const lastPage = Math.ceil(totalItems / PUBLICATIONS_PER_PAGE);
 
@@ -29,8 +36,7 @@ const Projects = (props: { data: Iproject[]; loading: boolean }) => {
 		) {
 			setActualPage(apiPaginationPage + 1);
 		}
-	}
-
+	};
 	return (
 		<StyledProjects
 			className={`${projectSelected ? 'displayDetails' : ''}`}
@@ -64,6 +70,6 @@ const Projects = (props: { data: Iproject[]; loading: boolean }) => {
 			) : null}
 		</StyledProjects>
 	);
-}
+};
 
 export default Projects;

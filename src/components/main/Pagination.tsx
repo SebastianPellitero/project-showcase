@@ -1,14 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyledPagination } from './Pagination.styles';
 import { PAGE_LIMIT, PUBLICATIONS_PER_PAGE } from 'src/constants';
 
 const Pagination = (props: { lastPage: number; onPageChange: Function }) => {
 	const { lastPage, onPageChange } = props;
-
 	const [currentPage, setCurrentPage] = useState(1);
+	useEffect(() => {
+		const resetPagination = () => {
+			setCurrentPage(1);
+			onPageChange({
+				start: 0,
+				end: PUBLICATIONS_PER_PAGE,
+				pageNumber: 1
+			});
+		};
+		resetPagination();
+	}, [lastPage]);
 
 	const changePage = (pageNumber: number) => {
-		const start = pageNumber * PUBLICATIONS_PER_PAGE - PUBLICATIONS_PER_PAGE;
+		const start =
+			pageNumber * PUBLICATIONS_PER_PAGE - PUBLICATIONS_PER_PAGE;
 
 		onPageChange({
 			start,
@@ -16,7 +27,7 @@ const Pagination = (props: { lastPage: number; onPageChange: Function }) => {
 			pageNumber
 		});
 		setCurrentPage(pageNumber);
-	}
+	};
 
 	const goToNextPage = () => changePage(currentPage + 1);
 
@@ -24,6 +35,7 @@ const Pagination = (props: { lastPage: number; onPageChange: Function }) => {
 
 	const getPaginationGroup = () => {
 		let paginationGroup: number[] = [];
+
 		if (lastPage > 0) {
 			let start = Math.floor((currentPage - 1) / PAGE_LIMIT) * PAGE_LIMIT;
 			for (let index = 0; index < PAGE_LIMIT; index++) {
@@ -66,6 +78,6 @@ const Pagination = (props: { lastPage: number; onPageChange: Function }) => {
 			</button>
 		</StyledPagination>
 	);
-}
+};
 
 export default Pagination;
